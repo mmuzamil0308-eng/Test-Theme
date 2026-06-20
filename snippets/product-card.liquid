@@ -1,0 +1,39 @@
+{% comment %} Usage: {% render 'product-card', product: product %} {% endcomment %}
+<div class="pcard" data-reveal>
+  <a href="{{ product.url }}" class="pcard__media">
+    {% if product.featured_image %}
+      <img src="{{ product.featured_image | image_url: width: 700 }}" alt="{{ product.title }}" loading="lazy">
+    {% else %}
+      <img src="{{ 'product-fallback.jpg' | asset_url }}" alt="{{ product.title }}" loading="lazy">
+    {% endif %}
+    {% if product.compare_at_price > product.price %}
+      <span class="pcard__off">-{{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}%</span>
+    {% endif %}
+    {% if product.tags contains 'bestseller' %}
+      <span class="pcard__badge">Bestseller</span>
+    {% endif %}
+  </a>
+  <div class="pcard__body">
+    <div class="pcard__cat">{{ product.type | default: product.vendor }}</div>
+    <a href="{{ product.url }}" class="pcard__name serif">{{ product.title }}</a>
+    <div class="pcard__stars">
+      <span class="stars">
+        {% for i in (1..5) %}&#9733;{% endfor %}
+      </span>
+      <span>{{ product.metafields.reviews.rating | default: "4.9" }} <span style="color:#b3a690">({{ product.metafields.reviews.count | default: "128" }})</span></span>
+    </div>
+    <div class="pcard__price">
+      <span class="pcard__sale serif">{{ product.price | money }}</span>
+      {% if product.compare_at_price > product.price %}
+        <span class="pcard__was">{{ product.compare_at_price | money }}</span>
+      {% endif %}
+    </div>
+    {% form 'product', product, data-atc-form: true %}
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+      <button type="submit" class="pcard__add" data-atc-form-trigger>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8h12l-1 12H7L6 8Z" stroke-linejoin="round"/><path d="M9 8a3 3 0 0 1 6 0" stroke-linecap="round"/></svg>
+        Add to Cart
+      </button>
+    {% endform %}
+  </div>
+</div>

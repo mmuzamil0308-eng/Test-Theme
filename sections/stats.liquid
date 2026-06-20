@@ -1,0 +1,32 @@
+<section style="background:var(--c-cream)">
+  <div class="wrap stats-grid" style="padding-top:80px;padding-bottom:80px">
+    {% for block in section.blocks %}
+      <div data-reveal class="stat">
+        <div class="stat__num serif">{{ block.settings.number }}<span>{{ block.settings.suffix }}</span></div>
+        <div class="stat__label">{{ block.settings.label }}</div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Stats",
+  "blocks": [
+    { "type": "stat", "name": "Stat", "settings": [
+      { "type": "text", "id": "number", "label": "Number", "default": "10" },
+      { "type": "text", "id": "suffix", "label": "Suffix", "default": "K+" },
+      { "type": "text", "id": "label", "label": "Label", "default": "Happy Customers" }
+    ]}
+  ],
+  "default": {
+    "blocks": [
+      { "type": "stat", "settings": { "number": "10", "suffix": "K+", "label": "Happy Customers" } },
+      { "type": "stat", "settings": { "number": "4.9", "suffix": "/5", "label": "Average Rating" } },
+      { "type": "stat", "settings": { "number": "50", "suffix": "+", "label": "Cities Served" } },
+      { "type": "stat", "settings": { "number": "100", "suffix": "%", "label": "Natural Ingredients" } }
+    ]
+  },
+  "presets": [{ "name": "Stats" }]
+}
+{% endschema %}

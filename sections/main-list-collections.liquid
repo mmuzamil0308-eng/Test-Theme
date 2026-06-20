@@ -1,0 +1,20 @@
+<div class="wrap" style="padding-top:48px;padding-bottom:90px">
+  <h1 class="serif" style="font-weight:500;font-size:clamp(34px,4.5vw,52px);margin:0 0 40px;color:var(--c-dark);text-align:center">All Collections</h1>
+  <div class="cat-grid">
+    {% for collection in collections %}
+      <a href="{{ collection.url }}" class="cat-card">
+        {% if collection.featured_image %}
+          <img src="{{ collection.featured_image | image_url: width: 700 }}" alt="{{ collection.title }}">
+        {% else %}
+          <img src="{{ 'product-fallback.jpg' | asset_url }}" alt="{{ collection.title }}">
+        {% endif %}
+        <div class="cat-card__shade"></div>
+        <div class="cat-card__body">
+          <div class="cat-card__count">{{ collection.products_count }} Products</div>
+          <div class="cat-card__name serif">{{ collection.title }}</div>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+{% schema %}{ "name": "All collections", "settings": [] }{% endschema %}

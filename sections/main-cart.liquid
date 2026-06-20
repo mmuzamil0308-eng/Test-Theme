@@ -1,0 +1,43 @@
+<div class="wrap" style="padding-top:48px;padding-bottom:90px;min-height:60vh">
+  <h1 class="serif" style="font-weight:500;font-size:clamp(34px,4.5vw,52px);margin:0 0 8px;color:var(--c-dark)">Shopping Cart</h1>
+  <p style="font-size:14.5px;color:var(--c-muted);margin:0 0 40px">{{ cart.item_count }} item(s) in your cart</p>
+
+  {% if cart.item_count == 0 %}
+    <div style="text-align:center;padding:80px 20px;background:#FBF8F0;border-radius:8px">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#d8cdb6" stroke-width="1.1" style="margin-bottom:20px"><path d="M6 8h12l-1 12H7L6 8Z" stroke-linejoin="round"/><path d="M9 8a3 3 0 0 1 6 0" stroke-linecap="round"/></svg>
+      <div class="serif" style="font-size:24px;color:var(--c-dark);margin-bottom:18px">Your cart is empty</div>
+      <a href="/collections/all" class="btn btn-olive">Continue Shopping</a>
+    </div>
+  {% else %}
+    {% form 'cart', cart %}
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:48px;align-items:start">
+      <div>
+        {% for item in cart.items %}
+          <div class="cart-line" style="border-bottom:1px solid var(--c-border)">
+            <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.product.title }}" style="width:100px;height:100px">
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;gap:10px">
+                <div class="serif" style="font-size:20px;font-weight:600;color:var(--c-dark)">{{ item.product.title }}</div>
+                <div class="serif" style="font-size:18px;color:var(--c-olive)">{{ item.final_line_price | money }}</div>
+              </div>
+              <div style="font-size:12px;color:var(--c-muted2);margin:4px 0 12px">{{ item.variant.title }}</div>
+              <input type="number" name="updates[{{ item.key }}]" value="{{ item.quantity }}" min="0" style="width:70px;padding:8px;border:1px solid var(--c-border2);border-radius:3px">
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <!-- summary -->
+      <div style="background:var(--c-beige);border-radius:6px;padding:28px">
+        <div style="display:flex;justify-content:space-between;font-size:15px;color:var(--c-muted);margin-bottom:14px"><span>Subtotal</span><span style="color:var(--c-dark);font-weight:500">{{ cart.total_price | money }}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:20px;color:var(--c-dark);font-family:'Cormorant Garamond',serif;font-weight:600;padding-top:14px;border-top:1px solid var(--c-border2);margin-bottom:20px"><span>Total</span><span>{{ cart.total_price | money }}</span></div>
+        <button type="submit" name="update" class="btn btn-outline" style="width:100%;margin-bottom:10px">Update Cart</button>
+        <button type="submit" name="checkout" class="btn btn-dark" style="width:100%">Proceed to Checkout</button>
+      </div>
+    </div>
+    {% endform %}
+  {% endif %}
+</div>
+
+{% schema %}
+{ "name": "Cart page", "settings": [] }
+{% endschema %}

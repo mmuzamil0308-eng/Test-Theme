@@ -1,0 +1,8 @@
+{
+  "sections": {
+    "hero": { "type": "hero" },
+    "bestsellers": { "type": "bestsellers" },
+    "reviews": { "type": "reviews" }
+  },
+  "order": ["hero", "bestsellers", "reviews"]
+}

@@ -1,0 +1,150 @@
+<div class="wrap" style="padding-top:34px">
+  <div class="breadcrumb">
+    <a href="{{ routes.root_url }}">Home</a>
+    <span>/</span><a href="{{ collection.url | default: '/collections/all' }}">Shop</a>
+    <span>/</span><span style="color:var(--c-dark)">{{ product.title }}</span>
+  </div>
+
+  <div class="pdp-grid">
+    <!-- gallery -->
+    <div class="pdp-media">
+      <div class="pdp-media__main">
+        {% if product.featured_image %}
+          <img src="{{ product.featured_image | image_url: width: 1200 }}" alt="{{ product.title }}" id="pdp-main-img">
+        {% else %}
+          <img src="{{ 'product-fallback.jpg' | asset_url }}" alt="{{ product.title }}" id="pdp-main-img">
+        {% endif %}
+        {% if product.tags contains 'bestseller' %}
+          <span class="pcard__badge" style="left:18px;top:18px">Bestseller</span>
+        {% endif %}
+      </div>
+      {% if product.images.size > 1 %}
+        <div class="pdp-thumbs">
+          {% for image in product.images limit: 4 %}
+            <img src="{{ image | image_url: width: 200 }}" alt="" onclick="document.getElementById('pdp-main-img').src=this.src">
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- info -->
+    <div>
+      <div class="pdp-cat">{{ product.type | default: product.vendor }}</div>
+      <h1 class="pdp-title serif">{{ product.title }}</h1>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px">
+        <span style="color:var(--c-copper)">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span style="font-size:13.5px;color:var(--c-muted)">{{ product.metafields.reviews.rating | default: "4.9" }} &middot; {{ product.metafields.reviews.count | default: "128" }} verified reviews</span>
+      </div>
+      <div class="pdp-price-row">
+        <span class="pdp-price-sale serif">{{ product.selected_or_first_available_variant.price | money }}</span>
+        {% if product.compare_at_price > product.price %}
+          <span class="pdp-price-was">{{ product.compare_at_price | money }}</span>
+          <span class="pdp-save">Save {{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}%</span>
+        {% endif %}
+      </div>
+      <p class="pdp-desc">{{ product.description | strip_html | truncatewords: 45 }}</p>
+
+      {% form 'product', product, data-atc-form: true %}
+        {% if product.variants.size > 1 %}
+          <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--c-dark);margin-bottom:12px;font-weight:500">Choose your supply</div>
+          <div class="variant-row" data-variant-row>
+            {% for variant in product.variants %}
+              <button type="button" class="variant-pill{% if variant == product.selected_or_first_available_variant %} is-selected{% endif %}" data-variant-pill data-variant-id="{{ variant.id }}">{{ variant.title }}</button>
+            {% endfor %}
+          </div>
+        {% endif %}
+        <select name="id" style="display:none">
+          {% for variant in product.variants %}
+            <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %}>{{ variant.title }}</option>
+          {% endfor %}
+        </select>
+
+        <div class="qty-add-row">
+          <div class="qty-box" data-qty-box>
+            <button type="button" data-qty-dec>&minus;</button>
+            <input type="number" name="quantity" value="1" min="1">
+            <button type="button" data-qty-inc>+</button>
+          </div>
+          <button type="submit" class="btn btn-dark" style="flex:1;min-width:200px">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8h12l-1 12H7L6 8Z" stroke-linejoin="round"/><path d="M9 8a3 3 0 0 1 6 0" stroke-linecap="round"/></svg>
+            Add to Cart &middot; {{ product.selected_or_first_available_variant.price | money }}
+          </button>
+        </div>
+      {% endform %}
+
+      <div class="assurance-grid">
+        <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="18" height="12" rx="1.5"/><circle cx="12" cy="12" r="2.5"/></svg>Cash on<br>Delivery</div>
+        <div style="border-left:1px solid var(--c-border2);border-right:1px solid var(--c-border2)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h11v8H3zM14 10h4l3 3v2h-7" stroke-linejoin="round"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>2 to 4 Day<br>Delivery</div>
+        <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3 5 6v5c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>30-Day<br>Guarantee</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ingredients + benefits -->
+  {% if product.metafields.custom.ingredients != blank or product.metafields.custom.benefits != blank %}
+  <div class="pdp-extra-grid">
+    {% if product.metafields.custom.ingredients != blank %}
+    <div>
+      <div class="pdp-cat">Inside the Formula</div>
+      <h2 class="serif" style="font-size:32px;margin:0 0 24px;color:var(--c-dark)">Key ingredients</h2>
+      <div>
+        {% for ing in product.metafields.custom.ingredients.value %}
+          <div class="ingredient-row">
+            <span class="ingredient-row__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 21c8 0 14-6 14-15C10 6 5 12 5 21Z" stroke-linejoin="round"/></svg></span>
+            <span style="font-size:16px;color:var(--c-dark)">{{ ing }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    {% if product.metafields.custom.benefits != blank %}
+    <div>
+      <div class="pdp-cat">What to Expect</div>
+      <h2 class="serif" style="font-size:32px;margin:0 0 24px;color:var(--c-dark)">Benefits</h2>
+      <div style="margin-bottom:30px">
+        {% for b in product.metafields.custom.benefits.value %}
+          <div class="benefit-row">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9" opacity=".25"/><path d="m8 12 3 3 5-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span style="font-size:15.5px;color:#5c5046;line-height:1.5">{{ b }}</span>
+          </div>
+        {% endfor %}
+      </div>
+      {% if product.metafields.custom.directions != blank %}
+      <div class="howtouse-box">
+        <div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--c-tan);margin-bottom:11px;font-weight:500">How to Use</div>
+        <p style="margin:0;font-size:14.5px;line-height:1.7;color:rgba(255,253,246,.86);font-weight:300">{{ product.metafields.custom.directions.value }}</p>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+
+<!-- related products -->
+{% if product.collections.first.products.size > 1 %}
+<section style="background:var(--c-beige)">
+  <div class="wrap" style="padding-top:80px;padding-bottom:80px">
+    <div style="text-align:center;margin-bottom:44px">
+      <div class="pdp-cat">You May Also Love</div>
+      <h2 class="serif" style="font-size:clamp(30px,4vw,46px);margin:0;color:var(--c-dark)">Complete your ritual</h2>
+    </div>
+    <div class="pgrid">
+      {% assign related_count = 0 %}
+      {% for p in product.collections.first.products %}
+        {% if p.id != product.id and related_count < 4 %}
+          {% render 'product-card', product: p %}
+          {% assign related_count = related_count | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Product page",
+  "settings": []
+}
+{% endschema %}

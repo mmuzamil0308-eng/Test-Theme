@@ -1,0 +1,17 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Hunza Herbs",
+    "theme_version": "1.0.0",
+    "theme_author": "FilmDrafts custom build"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      { "type": "color", "id": "color_cream", "label": "Background cream", "default": "#FFFDF6" },
+      { "type": "color", "id": "color_dark", "label": "Dark text/brown", "default": "#3B2F2F" },
+      { "type": "color", "id": "color_copper", "label": "Copper accent", "default": "#B87333" },
+      { "type": "color", "id": "color_olive", "label": "Olive green", "default": "#556B2F" }
+    ]
+  }
+]

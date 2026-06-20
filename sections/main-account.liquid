@@ -1,0 +1,11 @@
+<div class="wrap" style="padding:48px 32px">
+  <h1 class="serif" style="font-size:32px;color:var(--c-dark);margin:0 0 26px">My Account</h1>
+  <p style="color:var(--c-muted)">Welcome back, {{ customer.first_name }}.</p>
+  {% for order in customer.orders %}
+    <div style="border-bottom:1px solid var(--c-border);padding:16px 0">
+      <a href="{{ order.customer_url }}">Order {{ order.name }}</a> &middot; {{ order.created_at | date: "%b %d, %Y" }} &middot; {{ order.total_price | money }}
+    </div>
+  {% endfor %}
+  <a href="{{ routes.account_logout_url }}" style="display:inline-block;margin-top:20px;color:var(--c-olive)">Log out</a>
+</div>
+{% schema %}{ "name": "Account", "settings": [] }{% endschema %}

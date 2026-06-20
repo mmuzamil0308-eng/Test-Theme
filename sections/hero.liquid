@@ -1,0 +1,57 @@
+<section class="hero">
+  {% if section.settings.image %}
+    <img src="{{ section.settings.image | image_url: width: 1800 }}" class="hero__bg" alt="">
+  {% else %}
+    <img src="{{ 'hero.jpg' | asset_url }}" class="hero__bg" alt="">
+  {% endif %}
+  <div class="hero__overlay1"></div>
+  <div class="hero__overlay2"></div>
+  <div class="wrap" style="position:relative">
+    <div class="hero__content">
+      <div data-reveal class="hero__badge"><span class="dot"></span> {{ section.settings.badge }}</div>
+      <h1 data-reveal class="serif">{{ section.settings.heading }}</h1>
+      <p data-reveal>{{ section.settings.subheading }}</p>
+      <div data-reveal class="hero__ctas">
+        <a href="{{ section.settings.primary_link }}" class="btn btn-copper">{{ section.settings.primary_label }}</a>
+        <a href="{{ section.settings.secondary_link }}" class="btn-ghost btn">{{ section.settings.secondary_label }}</a>
+      </div>
+      <div data-reveal class="hero__trust">
+        {% for block in section.blocks %}
+          <div class="hero__trust-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m5 12 4 4 10-10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            {{ block.settings.label }}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Background image" },
+    { "type": "text", "id": "badge", "label": "Badge text", "default": "Pakistan's Premium Herbal House" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Ancient wisdom, perfected for modern life." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Pure herbal and ayurvedic formulations, crafted from traditional recipes and the finest natural ingredients, made for vitality, balance and lasting wellness." },
+    { "type": "text", "id": "primary_label", "label": "Primary button label", "default": "Shop Bestsellers" },
+    { "type": "url", "id": "primary_link", "label": "Primary button link" },
+    { "type": "text", "id": "secondary_label", "label": "Secondary button label", "default": "Our Story" },
+    { "type": "url", "id": "secondary_link", "label": "Secondary button link" }
+  ],
+  "blocks": [
+    { "type": "trust_item", "name": "Trust item", "settings": [
+      { "type": "text", "id": "label", "label": "Label", "default": "Free Shipping" }
+    ]}
+  ],
+  "default": {
+    "blocks": [
+      { "type": "trust_item", "settings": { "label": "100% Natural" } },
+      { "type": "trust_item", "settings": { "label": "Lab Tested" } },
+      { "type": "trust_item", "settings": { "label": "4,200+ Happy Customers" } }
+    ]
+  },
+  "presets": [{ "name": "Hero" }]
+}
+{% endschema %}

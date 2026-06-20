@@ -1,0 +1,38 @@
+<div class="cart-drawer-overlay" data-cart-overlay></div>
+<aside class="cart-drawer" data-cart-drawer>
+  <div class="cart-drawer__head">
+    <div class="cart-drawer__title">Your Cart <span style="font-size:15px;color:#9a8b76;font-family:'Jost'">(<span data-cart-count>{{ cart.item_count }}</span>)</span></div>
+    <button data-cart-close style="background:none;border:none;color:#6b5d4f;padding:6px;display:flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6 6 18" stroke-linecap="round"/></svg></button>
+  </div>
+  <div class="cart-drawer__body" data-cart-body>
+    {% if cart.item_count == 0 %}
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:40px;text-align:center">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#d8cdb6" stroke-width="1.2"><path d="M6 8h12l-1 12H7L6 8Z" stroke-linejoin="round"/><path d="M9 8a3 3 0 0 1 6 0" stroke-linecap="round"/></svg>
+        <div class="serif" style="font-size:22px;color:var(--c-dark)">Your cart is empty</div>
+        <button class="btn btn-olive" data-cart-close>Continue Shopping</button>
+      </div>
+    {% else %}
+      {% for item in cart.items %}
+        <div class="cart-line">
+          <img src="{{ item.image | image_url: width: 160 }}" alt="{{ item.product.title }}">
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;gap:10px">
+              <div class="serif" style="font-size:18px;font-weight:600;color:var(--c-dark);line-height:1.2">{{ item.product.title }}</div>
+            </div>
+            <div style="font-size:11.5px;color:#9a8b76;margin:3px 0 12px">{{ item.variant.title }}</div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div class="serif" style="font-size:16px;font-weight:500;color:var(--c-olive)">{{ item.final_line_price | money }}</div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+  <div class="cart-drawer__footer" data-cart-foot>
+    {% if cart.item_count > 0 %}
+      <div style="display:flex;justify-content:space-between;font-size:14px;color:#6b5d4f;margin-bottom:16px"><span>Subtotal</span><span style="color:var(--c-dark);font-weight:500">{{ cart.total_price | money }}</span></div>
+      <a href="/checkout" class="btn btn-dark" style="width:100%;margin-bottom:10px">Proceed to Checkout</a>
+      <a href="/cart" class="btn btn-outline" style="width:100%">View Full Cart</a>
+    {% endif %}
+  </div>
+</aside>

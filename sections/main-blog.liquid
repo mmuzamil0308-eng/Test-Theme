@@ -1,0 +1,13 @@
+<div class="wrap" style="padding-top:48px;padding-bottom:90px">
+  <h1 class="serif" style="font-size:clamp(34px,4.5vw,52px);margin:0 0 40px;color:var(--c-dark);text-align:center">{{ blog.title }}</h1>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px">
+    {% for article in blog.articles %}
+      <a href="{{ article.url }}" style="text-decoration:none;color:inherit">
+        {% if article.image %}<img src="{{ article.image | image_url: width: 600 }}" style="border-radius:5px;aspect-ratio:4/3;object-fit:cover;margin-bottom:14px">{% endif %}
+        <h3 class="serif" style="font-size:22px;color:var(--c-dark);margin:0 0 8px">{{ article.title }}</h3>
+        <p style="font-size:14px;color:var(--c-muted)">{{ article.excerpt_or_content | strip_html | truncatewords: 20 }}</p>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+{% schema %}{ "name": "Blog", "settings": [] }{% endschema %}

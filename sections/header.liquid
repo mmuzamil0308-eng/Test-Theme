@@ -1,0 +1,66 @@
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href="{{ routes.root_url }}" class="logo">
+      <span class="logo__mark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 21c0-7 4-11 9-12-1 8-4 11-9 12Z" fill="#556B2F"/><path d="M12 21C12 14 8 10 3 9c1 8 4 11 9 12Z" fill="#B87333" opacity=".85"/><path d="M12 21v-7" stroke="#3B2F2F" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </span>
+      <span style="display:flex;flex-direction:column;line-height:1">
+        <span class="logo__type">{{ section.settings.logo_text | default: shop.name }}</span>
+        <span class="logo__sub">{{ section.settings.tagline }}</span>
+      </span>
+    </a>
+
+    <nav class="main-nav">
+      {% for link in section.settings.menu.links %}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {% endfor %}
+    </nav>
+
+    <div class="nav-icons">
+      <a href="{{ routes.search_url }}" class="icon-btn" aria-label="Search">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3" stroke-linecap="round"/></svg>
+      </a>
+      <a href="{{ routes.account_url }}" class="icon-btn" aria-label="Account">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0" stroke-linecap="round"/></svg>
+      </a>
+      <button class="icon-btn" data-cart-open aria-label="Cart">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8h12l-1 12H7L6 8Z" stroke-linejoin="round"/><path d="M9 8a3 3 0 0 1 6 0" stroke-linecap="round"/></svg>
+        <span class="icon-badge" data-cart-count>{{ cart.item_count }}</span>
+      </button>
+      <button class="icon-btn hamburger" data-menu-toggle aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div data-menu-overlay style="position:fixed;inset:0;background:rgba(40,32,24,.45);opacity:0;pointer-events:none;transition:opacity .35s;z-index:90"></div>
+<aside data-menu-panel style="position:fixed;top:0;right:0;height:100%;width:min(340px,86%);background:var(--c-cream);z-index:91;padding:26px;transform:translateX(100%);transition:transform .4s cubic-bezier(.16,.84,.44,1);overflow-y:auto">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:18px;border-bottom:1px solid #ece5d5">
+    <span class="serif" style="font-size:22px;font-weight:600;letter-spacing:.06em;color:var(--c-dark)">{{ section.settings.logo_text | default: shop.name }}</span>
+    <button data-menu-close style="background:none;border:none;color:#6b5d4f;padding:6px;display:flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6 6 18" stroke-linecap="round"/></svg></button>
+  </div>
+  <nav style="display:flex;flex-direction:column">
+    {% for link in section.settings.menu.links %}
+      <a href="{{ link.url }}" style="font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:500;color:var(--c-dark);text-decoration:none;padding:15px 0;border-bottom:1px solid #f3ecdc">{{ link.title }}</a>
+    {% endfor %}
+  </nav>
+  <a href="{{ section.settings.shop_link }}" class="btn btn-olive" style="margin-top:24px;width:100%">Shop Bestsellers</a>
+</aside>
+
+<style>
+[data-menu-overlay].is-open{opacity:1;pointer-events:auto}
+[data-menu-panel].is-open{transform:translateX(0)}
+</style>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "text", "id": "logo_text", "label": "Logo text", "default": "HUNZA HERBS" },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Herbal · Ayurveda" },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "url", "id": "shop_link", "label": "Shop link", "default": "/collections/all" }
+  ]
+}
+{% endschema %}

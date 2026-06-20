@@ -1,0 +1,35 @@
+<section class="trust-bar">
+  <div class="wrap trust-bar__inner">
+    {% for block in section.blocks %}
+      <div class="trust-bar__item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3 5 6v5c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z" stroke-linejoin="round"/></svg>
+        <div>
+          <div class="trust-bar__title">{{ block.settings.title }}</div>
+          <div class="trust-bar__sub">{{ block.settings.subtitle }}</div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust bar",
+  "blocks": [
+    { "type": "item", "name": "Item", "settings": [
+      { "type": "text", "id": "title", "label": "Title" },
+      { "type": "text", "id": "subtitle", "label": "Subtitle" }
+    ]}
+  ],
+  "default": {
+    "blocks": [
+      { "type": "item", "settings": { "title": "Free Delivery", "subtitle": "Orders over Rs 5,000" } },
+      { "type": "item", "settings": { "title": "Cash on Delivery", "subtitle": "Across Pakistan" } },
+      { "type": "item", "settings": { "title": "100% Authentic", "subtitle": "Lab tested formulations" } },
+      { "type": "item", "settings": { "title": "30-Day Guarantee", "subtitle": "Money back promise" } },
+      { "type": "item", "settings": { "title": "4.9 / 5 Rating", "subtitle": "From 4,200+ reviews" } }
+    ]
+  },
+  "presets": [{ "name": "Trust bar" }]
+}
+{% endschema %}

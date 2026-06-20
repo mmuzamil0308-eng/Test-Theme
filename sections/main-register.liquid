@@ -1,0 +1,11 @@
+<div class="wrap" style="padding:60px 32px;max-width:440px;margin:0 auto">
+  <h1 class="serif" style="font-size:32px;color:var(--c-dark);margin:0 0 26px;text-align:center">Create Account</h1>
+  {% form 'create_customer' %}
+    {% if form.errors %}<p style="color:#a04a3a">{{ form.errors | default_errors }}</p>{% endif %}
+    <input type="text" name="customer[first_name]" placeholder="First name" style="width:100%;padding:14px;margin-bottom:12px;border:1px solid var(--c-border2);border-radius:3px">
+    <input type="email" name="customer[email]" placeholder="Email" required style="width:100%;padding:14px;margin-bottom:12px;border:1px solid var(--c-border2);border-radius:3px">
+    <input type="password" name="customer[password]" placeholder="Password" required style="width:100%;padding:14px;margin-bottom:16px;border:1px solid var(--c-border2);border-radius:3px">
+    <button type="submit" class="btn btn-dark" style="width:100%">Create Account</button>
+  {% endform %}
+</div>
+{% schema %}{ "name": "Register", "settings": [] }{% endschema %}

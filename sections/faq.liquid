@@ -1,0 +1,52 @@
+<section id="faq" class="wrap" style="padding-top:104px;padding-bottom:104px">
+  <div class="faq-grid">
+    <div data-reveal>
+      <div class="eyebrow">{{ section.settings.eyebrow }}</div>
+      <h2 class="serif">{{ section.settings.heading }}</h2>
+      <p style="font-size:15.5px;line-height:1.7;color:var(--c-muted);margin:0 0 26px;font-weight:300">{{ section.settings.body }}</p>
+      <a href="{{ section.settings.cta_link }}" class="btn btn-outline">{{ section.settings.cta_label }}</a>
+    </div>
+    <div data-reveal style="display:flex;flex-direction:column">
+      {% for block in section.blocks %}
+        <div class="faq-item">
+          <button class="faq-item__q">
+            <span>{{ block.settings.question }}</span>
+            <span class="faq-item__icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+            </span>
+          </button>
+          <p class="faq-item__a">{{ block.settings.answer }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Good to Know" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Questions, answered" },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "Everything you need to know about our formulations, sourcing and delivery. Still curious?" },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Contact our experts" },
+    { "type": "url", "id": "cta_link", "label": "CTA link", "default": "/pages/contact" }
+  ],
+  "blocks": [
+    { "type": "faq", "name": "FAQ item", "settings": [
+      { "type": "text", "id": "question", "label": "Question" },
+      { "type": "textarea", "id": "answer", "label": "Answer" }
+    ]}
+  ],
+  "default": {
+    "blocks": [
+      { "type": "faq", "settings": { "question": "Are your products 100% natural?", "answer": "Yes, every formulation uses whole, traceable botanicals with no synthetic fillers." } },
+      { "type": "faq", "settings": { "question": "How long does delivery take?", "answer": "Most orders across Pakistan arrive within 2 to 4 business days." } },
+      { "type": "faq", "settings": { "question": "Do you offer Cash on Delivery?", "answer": "Yes, COD is available nationwide alongside secure online payment." } },
+      { "type": "faq", "settings": { "question": "Is there a money-back guarantee?", "answer": "We offer a 30-day satisfaction guarantee on all formulations." } },
+      { "type": "faq", "settings": { "question": "How should I take these supplements?", "answer": "Directions are included on each product page and packaging." } }
+    ]
+  },
+  "presets": [{ "name": "FAQ" }]
+}
+{% endschema %}

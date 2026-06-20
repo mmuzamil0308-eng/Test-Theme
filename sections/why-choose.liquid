@@ -1,0 +1,46 @@
+<section class="why-section">
+  <div class="wrap" style="padding-top:100px;padding-bottom:100px">
+    <div data-reveal class="section-head">
+      <div class="eyebrow">{{ section.settings.eyebrow }}</div>
+      <h2 class="serif">{{ section.settings.heading }}</h2>
+    </div>
+    <div class="why-grid">
+      {% for block in section.blocks %}
+        <div data-reveal class="why-card">
+          <div class="why-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 5 6v5c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 class="serif">{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Why choose us",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Hunza Herbs Promise" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Why discerning customers choose us" }
+  ],
+  "blocks": [
+    { "type": "card", "name": "Card", "settings": [
+      { "type": "text", "id": "title", "label": "Title" },
+      { "type": "textarea", "id": "text", "label": "Text" }
+    ]}
+  ],
+  "default": {
+    "blocks": [
+      { "type": "card", "settings": { "title": "100% Natural", "text": "No fillers, no synthetic additives, ever." } },
+      { "type": "card", "settings": { "title": "Lab Tested", "text": "Every batch verified for purity and potency." } },
+      { "type": "card", "settings": { "title": "Traditional Recipes", "text": "Formulations rooted in generations of wisdom." } },
+      { "type": "card", "settings": { "title": "Fast Delivery", "text": "2 to 4 day delivery across Pakistan." } },
+      { "type": "card", "settings": { "title": "Cash on Delivery", "text": "Pay when your order arrives at your door." } },
+      { "type": "card", "settings": { "title": "30-Day Guarantee", "text": "Not satisfied? Get your money back." } }
+    ]
+  },
+  "presets": [{ "name": "Why choose us" }]
+}
+{% endschema %}
